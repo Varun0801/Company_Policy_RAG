@@ -1,0 +1,117 @@
+define user express greeting
+  "Hello"
+  "Hi"
+  "Hey"
+
+define bot express greeting
+  "Hello world!"
+  "Yup, All good.."
+
+define bot ask how are you
+  "How are you doing?"
+  "How's it going?"
+  "How are you feeling today?"
+
+define user express feeling good
+  "I'm feeling good"
+  "Good"
+  "Perfect"
+
+define user express feeling bad
+  "Not so good"
+  "Bad"
+  "Sad"
+
+define flow
+  user express greeting
+  bot express greeting
+  bot ask how are you
+
+  when user express feeling good
+    bot express positive emotion
+
+  else when user express feeling bad
+    bot express empathy
+
+# Datastore specific queries
+define user ask about Company and Company's Policies
+  "Can you tell me about Company's vision?"
+  "What is the recruitment process?"
+  "How is the New Hire Travel Expenses are covered"
+  "Tell me about Internship Programme"
+  "Highlight about Training & Development"
+  "Speak about Transfer Provision"
+  "I want to know about Attendance and Leave Management"
+  "Any details about Notice period"
+
+define bot inform using Datastore
+  "Let me search our company policy document for your question."
+  "I'll check our company policy database for some suggestions."
+  "Searching our company policy database for your queries."
+
+define bot delegate to agent
+  "Here are some relevant answers from our database."
+
+define flow movie recommendations
+  user ask about Company and Company's Policies
+  bot bot inform using Datastore
+  bot delegate to agent
+
+# General queries that don't need Datastore
+define user ask general question
+  "What's the weather like?"
+  "Tell me a joke"
+  "What's the capital of India?"
+  "How do I make pasta?"
+  "What time is it?"
+  "Who won the world cup?"
+  "Tell me about history"
+
+define bot use direct llm
+  "Let me help you with that question."
+  "I can answer that for you."
+  "Here's what I know about that."
+
+define flow general queries
+  user ask general question
+  bot use direct llm
+
+# Off-topic queries
+define user ask about politics
+  "What do you think about the government?"
+  "Which party should I vote for?"
+  "Who should I vote for?"
+  "What's your political opinion?"
+
+define user ask about stock market
+  "Which stock should I invest in?"
+  "Would this stock 10x over the next year?"
+  "Should I buy this stock?"
+  "Give me stock tips"
+
+define bot refuse to respond
+  "I apologize, but I cannot provide advice on that topic."
+  "That topic is outside of my scope. I cannot provide advice on it."
+  "I'm not able to provide recommendations on that subject."
+
+define flow politics
+  user ask about politics
+  bot refuse to respond
+
+define flow stock market
+  user ask about stock market
+  bot refuse to respond
+
+define flow self check input
+  $allowed = execute self_check_input
+
+  if not $allowed
+    bot refuse to respond
+    stop
+
+define subflow self check output
+  $allowed = execute self_check_output
+
+  if not $allowed
+    bot refuse to respond
+    stop

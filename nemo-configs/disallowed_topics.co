@@ -1,0 +1,27 @@
+define flow
+  user ask about cooking
+  bot refuse to respond about cooking
+
+define flow
+  user ask about hate speech
+  bot refuse to respond about hate speech
+
+define flow
+  user ask about child abuse
+  bot refuse to respond about child abuse
+
+define flow
+  user ask about drug manufacturing
+  bot refuse to respond about drug manufacturing
+
+define flow
+  user ask about violence
+  bot refuse to respond about violence
+
+define flow
+  user ask about self-harm
+  bot refuse to respond about self-harm
+
+define flow
+  user ask about criminal activity
+  bot refuse to respond about criminal activity
